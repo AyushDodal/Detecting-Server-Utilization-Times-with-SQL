@@ -15,8 +15,11 @@ This project monitors server uptimes & downtimes and can be used to notify admin
 ## Usage
 
 1. If you already have a server on MySQL,
+   
      a. Create the table "downtime_alerts"
+
      b. Create & run the stored procedure
+
      c. Execute the "Schedule Run" code
 
 2. If you don't have an existing server setup, create a schema and run the code for create and insert into "server_utilization" table. Then follow the sub-steps in 1.

@@ -1,0 +1,29 @@
+
+CREATE TABLE server_utilization (
+    server_id INTEGER NOT NULL,
+    session_status VARCHAR(10) CHECK (session_status IN ('start', 'stop')),
+    status_time TIMESTAMP NOT NULL,
+    PRIMARY KEY (server_id, status_time)
+);
+
+INSERT INTO server_utilization (server_id, session_status, status_time)
+SELECT 
+    FLOOR(1 + RAND() * 10) AS server_id,  -- Random server_id between 1 and 10
+    CASE WHEN RAND() > 0.5 THEN 'start' ELSE 'stop' END AS session_status,  -- Random session status
+    TIMESTAMP(DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 7) DAY), 
+              SEC_TO_TIME(FLOOR(RAND() * 86400))) AS status_time  -- Random timestamp within the last week
+FROM 
+    (SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL 
+     SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9 UNION ALL SELECT 10) AS x,
+    (SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL 
+     SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9 UNION ALL SELECT 10) AS y
+LIMIT 100;
+
+
+CREATE TABLE downtime_alerts (
+    alert_id INT AUTO_INCREMENT PRIMARY KEY,
+    server_id INT NOT NULL,
+    downtime_start TIMESTAMP NOT NULL,
+    downtime_end TIMESTAMP,
+    downtime_seconds INT NOT NULL
+);

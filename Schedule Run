@@ -1,0 +1,6 @@
+SET GLOBAL event_scheduler = ON;
+
+CREATE EVENT check_downtime_event
+ON SCHEDULE EVERY 2 SECOND
+DO
+CALL check_downtime_alert();
